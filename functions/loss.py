@@ -80,7 +80,8 @@ def hosm(score1, score2, samples, sigma=0.01):
     s2_1 = score2(perturbed_inputs).reshape(samples.shape[0], -1)
     s2_1 = torch.diag_embed(s2_1, offset=0, dim1=-2, dim2=-1).reshape(n, dim, dim)
     # with torch.no_grad():
-    s1_1 = score1(perturbed_inputs.reshape(-1, 1, 28, 28))
+    s1_1 = score1(perturbed_inputs.reshape(-1, 1, 32, 32))
+    #s1_1 = score1(perturbed_inputs.reshape(-1, 1, 28, 28))
     s1_product_1 = torch.einsum('ij, ik -> ijk', s1_1, s1_1)
     h_1 = (s2_1 + s1_product_1).view(n, -1)
 

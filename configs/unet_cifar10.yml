@@ -25,7 +25,7 @@ data:
   channels: 3
   random_flip: true
 
-batch_size: 40 #80
+batch_size: 16 #80
 lr: 0.0002
 lr_decay: 0.999995
 max_epochs: 1000

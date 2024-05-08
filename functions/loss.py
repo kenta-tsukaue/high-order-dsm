@@ -78,20 +78,24 @@ def hosm(score1, score2, samples, sigma=0.01):
     perturbed_inputs = samples + vectors * sigma
 
     s2_1 = score2(perturbed_inputs).reshape(samples.shape[0], -1)
-    print("s2_1",s2_1.shape)
-    s2_1 = torch.diag_embed(s2_1, offset=0, dim1=-2, dim2=-1).reshape(n, dim, dim)
-    print("s2_1",s2_1.shape)
+    print("s2_1",s2_1.shape) #torch.Size([16, 3072])
+    #s2_1 = torch.diag_embed(s2_1, offset=0, dim1=-2, dim2=-1).reshape(n, dim, dim)
+    print("s2_1",s2_1.shape)# torch.Size([16, 3072, 3072])
     # with torch.no_grad():
     s1_1 = score1(perturbed_inputs.reshape(-1, 3, 32, 32))
     #s1_1 = score1(perturbed_inputs.reshape(-1, 1, 28, 28))
-    s1_product_1 = torch.einsum('ij, ik -> ijk', s1_1, s1_1)
+    #s1_product_1 = torch.einsum('ij, ik -> ijk', s1_1, s1_1)
+    s1_product_1 = (s1_1 * s1_1).view(n, -1)
     h_1 = (s2_1 + s1_product_1).view(n, -1)
 
-    vectors_product = torch.einsum('ij, ik -> ijk', vectors, vectors)
-    eye = torch.eye(dim, device=vectors.device)
+    #vectors_product = torch.einsum('ij, ik -> ijk', vectors, vectors)
+    vectors_product = vectors * vectors
+    """eye = torch.eye(dim, device=vectors.device)
     eye = eye.unsqueeze(0)
     eye = eye[None, ...]
-    diff = (eye - vectors_product) / (sigma ** 2)
+    diff = (eye - vectors_product) / (sigma ** 2)"""
+
+    diff = (1 - vectors_product) / (sigma ** 2)
 
     #loss = h_1 ** 2 + 2 * diff.view(n, -1) * h_1 + diff ** 2
     loss = (h_1 + diff.view(n, -1)) ** 2

@@ -28,7 +28,7 @@ class DoubleDiagonalHybridRunner(object):
         os.makedirs(os.path.join(self.args.log, 'images'), exist_ok=True)
 
         if self.config.loss == "dsm":
-            self.loss_op1 = dsm_vr
+            self.loss_op1 = dsm
         elif self.config.loss == "dsm_vr":
             self.loss_op1 = dsm_vr
         else:

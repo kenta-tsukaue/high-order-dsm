@@ -78,9 +78,9 @@ def hosm(score1, score2, samples, sigma=0.01):
     perturbed_inputs = samples + vectors * sigma
 
     s2_1 = score2(perturbed_inputs).reshape(samples.shape[0], -1)
-    print("s2_1",s2_1.shape) #torch.Size([16, 3072])
+    #print("s2_1",s2_1.shape) #torch.Size([16, 3072])
     #s2_1 = torch.diag_embed(s2_1, offset=0, dim1=-2, dim2=-1).reshape(n, dim, dim)
-    print("s2_1",s2_1.shape)# torch.Size([16, 3072, 3072])
+    #print("s2_1",s2_1.shape)# torch.Size([16, 3072, 3072])
     # with torch.no_grad():
     s1_1 = score1(perturbed_inputs.reshape(-1, 3, 32, 32))
     #s1_1 = score1(perturbed_inputs.reshape(-1, 1, 28, 28))

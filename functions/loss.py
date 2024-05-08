@@ -91,7 +91,8 @@ def hosm(score1, score2, samples, sigma=0.01):
     eye = eye[None, ...]
     diff = (eye - vectors_product) / (sigma ** 2)
 
-    loss = h_1 ** 2 + 2 * diff.view(n, -1) * h_1
+    #loss = h_1 ** 2 + 2 * diff.view(n, -1) * h_1 + diff ** 2
+    loss = (h_1 + diff) ** 2
     loss = loss.sum(dim=-1)
     loss = loss.mean(dim=0) / 2.
 
